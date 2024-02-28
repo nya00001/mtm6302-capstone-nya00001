@@ -72,13 +72,37 @@ body {
     color: var(--secondary-color);
 }
 
-.easy{
+.difficult button {
+    background-color: var(--tertiary-color);
+    border: 5px solid var(--dark-color);
+    color: var(--secondary-color);
+}
+
+.difficult button:hover {
     background-color: var(--accent-color);
     border: 5px solid var(--dark-color);
     color: var(--dark-color);
 }
 
-.hard{
+.capital {
+    background-color: var(--primary-color);
+    border: 5px solid var(--dark-color);
+    color: var(--dark-color);
+}
+
+.capital:hover {
+    background-color: var(--tertiary-color);
+    border: 5px solid var(--dark-color);
+    color: var(--secondary-color);
+}
+
+.score {
+    background-color: var(--primary-color);
+    border: 5px solid var(--dark-color);
+    color: var(--dark-color);
+}
+
+.reset {
     background-color: var(--tertiary-color);
     border: 5px solid var(--dark-color);
     color: var(--secondary-color);
