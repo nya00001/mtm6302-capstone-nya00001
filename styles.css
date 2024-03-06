@@ -107,3 +107,9 @@ body {
     border: 5px solid var(--dark-color);
     color: var(--secondary-color);
 }
+
+@media (min-width: 576px) {
+    .quiz-container {
+        border: 5px solid var(--dark-color); 
+    }
+}
