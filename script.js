@@ -21,9 +21,9 @@ function setupEventListeners() {
 }
 
 function startQuiz(difficulty) {
-    localStorage.removeItem('selectedAnswer'); // Ensure to clear previous answer
+    localStorage.removeItem('selectedAnswer'); 
     localStorage.setItem('difficulty', difficulty);
-    window.location.href = 'questions.html';  // Redirects to the questions page
+    window.location.href = 'questions.html';  
 }
 
 async function fetchQuestion(difficulty) {
@@ -32,7 +32,7 @@ async function fetchQuestion(difficulty) {
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        if (data.length > 0 && data[0].question) { // Make sure that data and question exist
+        if (data.length > 0 && data[0].question) { 
             displayQuestion(data[0]);
         } else {
             console.error('No questions received');
@@ -48,24 +48,20 @@ function displayQuestion(question) {
     const questionContainer = document.getElementById('question');
     const answersContainer = document.getElementById('answer-form');
     questionContainer.textContent = question.question;
-    answersContainer.innerHTML = ''; // Clear previous answers
+    answersContainer.innerHTML = ''; 
     
-    // Filter out any null values and ensure we are working with an array of answer keys that are not null
     const entries = Object.entries(question.answers).filter(([key, value]) => value != null);
 
-    // Use a for loop to iterate through the filtered entries
     for (let i = 0; i < entries.length; i++) {
         const [key, value] = entries[i];
         const button = document.createElement('button');
         button.textContent = value;
         button.className = 'btn dif m-2 answer-btn';
-        // Assuming question.correct_answers has keys like 'answer_a_correct' and values are either 'true' or 'false'
         button.dataset.correct = question.correct_answers[`${key}_correct`] === "true";
         button.addEventListener('click', function() { selectAnswer(button); });
         answersContainer.appendChild(button);
     }
 
-    // Add a submit button for submitting the answer
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Submit Answer';
     submitButton.className = 'btn link rounded-4 mt-4';
@@ -77,9 +73,8 @@ function displayQuestion(question) {
 function selectAnswer(button) {
     const buttons = document.querySelectorAll('.answer-btn');
     for (let button of buttons) {
-        button.style.backgroundColor = ''; // Reset all buttons
-    }
-    button.style.backgroundColor = 'var(--accent-color)'; // Highlight selected
+        button.style.backgroundColor = '';}
+    button.style.backgroundColor = 'var(--accent-color)'; 
     localStorage.setItem('selectedAnswer', button.dataset.correct);
 }
 
@@ -88,7 +83,7 @@ async function submitAnswer() {
         const selectedAnswer = localStorage.getItem('selectedAnswer');
         if (!selectedAnswer) {
             alert('Select an answer first!');
-            return; // Stop further execution if no answer is selected
+            return; 
         }
         
         const result = selectedAnswer === 'true';
@@ -120,7 +115,6 @@ function resetScore() {
 
 setupEventListeners();
 
-// Determine the appropriate action based on the current page
 const path = window.location.pathname;
 if (path.includes('questions.html')) {
     const difficulty = localStorage.getItem('difficulty') || 'easy';

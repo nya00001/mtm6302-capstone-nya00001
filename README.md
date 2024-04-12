@@ -59,3 +59,4 @@ This web application allows users to take quizzes fetched from the Quiz API. Use
 - **API Integration**: Integrating with the Quiz API required handling asynchronous data fetching and parsing.
 - **Highlighting Selected Answer**: Ensured that the selected answer is highlighted for user feedback.
 - **Submitting Answers**: Implemented functionality to submit answers successfully.
+- **Redirection between pages**: I had issues to start the quiz and view the results page whn answering, after some research I fixed this by using window.location.href.
