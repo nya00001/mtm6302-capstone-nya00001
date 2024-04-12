@@ -98,6 +98,24 @@ body {
     color: var(--dark-color);
 }
 
+.mx-auto .dif {
+    background-color: var(--tertiary-color); /* Custom default background */
+    color: var(--secondary-color); /* Custom text color */
+    border: 5px solid var(--dark-color); /* Custom border color */
+    cursor: pointer;
+}
+
+.mx-auto .dif:hover,
+.mx-auto .dif:active {
+    background-color: var(--accent-color); /* Change to accent color on interaction */
+    color: var(--dark-color); /* Ensure text color is dark */
+}
+
+.mx-auto input[type="radio"]:checked + .dif {
+    background-color: var(--accent-color); /* Keep accent color for selected button */
+    color: var(--dark-color); /* Keep text color dark */
+}
+
 @media (min-width: 576px) {
     .quiz-container {
         border: 5px solid var(--dark-color); 

@@ -31,3 +31,31 @@ Acknowledging the diverse ways users access online content, the mockup has been 
 ## Challenges Faced
 - **Responsive Borders**: Bootstrap's default behavior for borders wasn't fully responsive, requiring custom CSS and media queries to achieve the desired effect.
 - **Button Styling**: Initially struggled with aligning and styling buttons consistently across different screen sizes. Resolved through experimenting with Bootstrap classes.
+
+
+# Final JavaScript Report
+
+## Overview
+
+This web application allows users to take quizzes fetched from the Quiz API. Users can select answers, which are then submitted and scored. I had to modify the quiz category in HTML to reflect the types of questions used in the Quiz API
+
+## Steps Taken
+
+1. **Planning and Research**: Identified project requirements and selected appropriate technologies.
+2. **Development**: Implemented functionality to fetch questions, display them dynamically, handle user interactions, and calculate scores.
+3. **Testing and Debugging**: Conducted manual testing and debugged issues.
+4. **Finalization**: Completed development and ensured all features functioned correctly.
+
+## Resources Used
+- MDN Web Docs
+- Quiz API Documentation
+- [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
+- [Quiz API Documentation](https://quizapi.io/docs/1.0/overview/)
+- Online tutorials and forums
+- IMDAC resources
+- Class labs and lectures
+
+## Challenges Faced
+- **API Integration**: Integrating with the Quiz API required handling asynchronous data fetching and parsing.
+- **Highlighting Selected Answer**: Ensured that the selected answer is highlighted for user feedback.
+- **Submitting Answers**: Implemented functionality to submit answers successfully.
