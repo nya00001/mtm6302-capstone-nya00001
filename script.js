@@ -1,42 +1,48 @@
-function setupEventListeners() {
-    const difficultyInputs = document.querySelectorAll('input[name="difficulty"]');
-    for (let i = 0; i < difficultyInputs.length; i++) {
-        difficultyInputs[i].addEventListener('change', function() {
-            localStorage.setItem('difficulty', this.value);
+setupListeners();
+
+function setupListeners() {
+    const startButtons = document.querySelectorAll('.start-quiz');
+    for (let i = 0; i < startButtons.length; i++) {
+        startButtons[i].addEventListener('click', () => {
+            const difficulty = document.querySelector('input[name="difficulty"]:checked').value;
+            switchSection('quiz-section');
+            startQuiz(difficulty);
         });
     }
 
-    const startQuizButtons = document.querySelectorAll('.start-quiz');
-    for (let i = 0; i < startQuizButtons.length; i++) {
-        startQuizButtons[i].addEventListener('click', function() {
-            const selectedDifficulty = document.querySelector('input[name="difficulty"]:checked').value;
-            startQuiz(selectedDifficulty);
+    const resetButtons = document.querySelectorAll('.reset-score');
+    for (let i = 0; i < resetButtons.length; i++) {
+        resetButtons[i].addEventListener('click', () => {
+            resetScore();
+            switchSection('home-section');
         });
     }
 
-    const resetButton = document.querySelector('.reset-score');
-    if (resetButton) {
-        resetButton.addEventListener('click', resetScore);
+    const difficultyChoices = document.querySelectorAll('input[name="difficulty"]');
+    for (let i = 0; i < difficultyChoices.length; i++) {
+        difficultyChoices[i].addEventListener('change', () => {
+            localStorage.setItem('difficulty', difficultyChoices[i].value);
+        });
     }
 }
 
-function startQuiz(difficulty) {
-    localStorage.removeItem('selectedAnswer'); 
-    localStorage.setItem('difficulty', difficulty);
-    window.location.href = 'questions.html';  
-}
+function startQuiz() {
+    const difficulty = localStorage.getItem('difficulty');
 
+    localStorage.removeItem('selectedAnswer');
+    fetchQuestion(difficulty);
+}
 async function fetchQuestion(difficulty) {
-    const apiUrl = `https://quizapi.io/api/v1/questions?apiKey=61KQdm9Mah9W8Ryg3Q4oHeQpuVVdk44X9zpSCTna&category=cms&difficulty=${difficulty}&limit=1`
-
+    const apiUrl = `https://quizapi.io/api/v1/questions?apiKey=61KQdm9Mah9W8Ryg3Q4oHeQpuVVdk44X9zpSCTna&category=cms&difficulty=${difficulty}&limit=1`;
     try {
         const response = await fetch(apiUrl);
         const data = await response.json();
-        if (data.length > 0 && data[0].question) { 
-            displayQuestion(data[0]);
+        if (data.length > 0 && data[0].question) {
+            localStorage.setItem('currentQuestion', JSON.stringify(data[0]));
+            showQuestion(data[0]);
         } else {
-            console.error('No questions received');
-            alert('No questions available for this category and tag.');
+            console.error('No questions found');
+            alert('No questions available for this category and difficulty.');
         }
     } catch (error) {
         console.error('Error fetching question:', error);
@@ -44,63 +50,60 @@ async function fetchQuestion(difficulty) {
     }
 }
 
-function displayQuestion(question) {
-    const questionContainer = document.getElementById('question');
-    const answersContainer = document.getElementById('answer-form');
-    questionContainer.textContent = question.question;
-    answersContainer.innerHTML = ''; 
-    
-    const entries = Object.entries(question.answers).filter(([key, value]) => value != null);
+function showQuestion(question) {
+    const questionText = document.getElementById('question');
+    const answersBlock = document.getElementById('answer-form');
+    questionText.textContent = question.question;
+    answersBlock.innerHTML = '';
 
+    const entries = Object.entries(question.answers);
     for (let i = 0; i < entries.length; i++) {
-        const [key, value] = entries[i];
-        const button = document.createElement('button');
-        button.textContent = value;
-        button.className = 'btn dif m-2 answer-btn';
-        button.dataset.correct = question.correct_answers[`${key}_correct`] === "true";
-        button.addEventListener('click', function() { selectAnswer(button); });
-        answersContainer.appendChild(button);
+        if (entries[i][1] != null) {
+            const answerButton = document.createElement('button');
+            answerButton.textContent = entries[i][1];
+            answerButton.className = 'btn dif m-2 answer-btn';
+            answerButton.dataset.correct = question.correct_answers[`${entries[i][0]}_correct`] === "true";
+            answerButton.addEventListener('click', () => selectAnswer(answerButton));
+            answersBlock.appendChild(answerButton);
+        }
     }
 
     const submitButton = document.createElement('button');
     submitButton.textContent = 'Submit Answer';
     submitButton.className = 'btn link rounded-4 mt-4';
     submitButton.addEventListener('click', submitAnswer);
-    answersContainer.appendChild(submitButton);
+    answersBlock.appendChild(submitButton);
 }
-
 
 function selectAnswer(button) {
     const buttons = document.querySelectorAll('.answer-btn');
-    for (let button of buttons) {
-        button.style.backgroundColor = '';}
-    button.style.backgroundColor = 'var(--accent-color)'; 
+    for (let i = 0; i < buttons.length; i++) {
+        buttons[i].style.backgroundColor = '';
+    }
+    button.style.backgroundColor = 'var(--accent-color)';
     localStorage.setItem('selectedAnswer', button.dataset.correct);
 }
 
 async function submitAnswer() {
-    try {
-        const selectedAnswer = localStorage.getItem('selectedAnswer');
-        if (!selectedAnswer) {
-            alert('Select an answer first!');
-            return; 
-        }
-        
-        const result = selectedAnswer === 'true';
-        localStorage.setItem('lastResult', result ? 'Correct!' : 'Wrong!');
-        await updateScore(result);
-        window.location.href = 'results.html';
-    } catch (error) {
-        console.error('Failed to submit answer:', error);
+    const selectedAnswer = localStorage.getItem('selectedAnswer');
+    if (!selectedAnswer) {
+        alert('Select an answer first!');
+        return;
     }
+
+    const result = selectedAnswer === 'true';
+    localStorage.setItem('lastResult', result ? 'Correct!' : 'Wrong!');
+    await updateScore(result);
+    switchSection('results-section');
 }
 
 async function updateScore(isCorrect) {
     const currentScore = parseInt(localStorage.getItem('score') || 0);
     localStorage.setItem('score', isCorrect ? currentScore + 1 : currentScore);
+    displayResults();
 }
 
-function displayResultsIfNeeded() {
+function displayResults() {
     const resultMessage = document.getElementById('result-message');
     const currentScore = document.getElementById('current-score');
     resultMessage.textContent = localStorage.getItem('lastResult');
@@ -113,12 +116,13 @@ function resetScore() {
     alert('Score has been reset.');
 }
 
-setupEventListeners();
+function switchSection(sectionId) {
+    const sections = document.querySelectorAll('.quiz-container');
+    for (let i = 0; i < sections.length; i++) {
+        sections[i].style.display = sections[i].id === sectionId ? 'block' : 'none';
+    }
 
-const path = window.location.pathname;
-if (path.includes('questions.html')) {
-    const difficulty = localStorage.getItem('difficulty') || 'easy';
-    fetchQuestion(difficulty);
-} else if (path.includes('results.html')) {
-    displayResultsIfNeeded();
+    if (sectionId === 'results-section') {
+        displayResults();
+    }
 }

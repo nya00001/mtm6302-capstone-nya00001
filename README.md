@@ -37,7 +37,7 @@ Acknowledging the diverse ways users access online content, the mockup has been 
 
 ## Overview
 
-This web application allows users to take quizzes fetched from the Quiz API. Users can select answers, which are then submitted and scored. I had to modify the quiz category in HTML to reflect the types of questions used in the Quiz API
+This web application allows users to take quizzes fetched from the Quiz API. Users can select answers, which are then submitted and scored. The quiz categories in the HTML were modified to align with the types of questions available in the Quiz API.
 
 ## Steps Taken
 
@@ -47,6 +47,7 @@ This web application allows users to take quizzes fetched from the Quiz API. Use
 4. **Finalization**: Completed development and ensured all features functioned correctly.
 
 ## Resources Used
+
 - MDN Web Docs
 - Quiz API Documentation
 - [Bootstrap Documentation](https://getbootstrap.com/docs/5.3/getting-started/introduction/)
@@ -56,7 +57,11 @@ This web application allows users to take quizzes fetched from the Quiz API. Use
 - Class labs and lectures
 
 ## Challenges Faced
+
 - **API Integration**: Integrating with the Quiz API required handling asynchronous data fetching and parsing.
 - **Highlighting Selected Answer**: Ensured that the selected answer is highlighted for user feedback.
 - **Submitting Answers**: Implemented functionality to submit answers successfully.
-- **Redirection between pages**: I had issues to start the quiz and view the results page whn answering, after some research I fixed this by using window.location.href.
+- **Redirection between Sections**: Faced issues starting the quiz and viewing the results page.
+- **Local Storage Issues**: Encountered problems with updating the difficulty level in local storage.
+- **Single Page Application Transition**: Faced challenges in converting three separate HTML pages into a single-page application.
+- **Functionality Integration**: Ensured all functions worked correctly across the entire application.
