@@ -19,7 +19,7 @@ function setupListeners() {
     const resetButtons = document.querySelectorAll('.reset-score');
     for (let i = 0; i < resetButtons.length; i++) {
         resetButtons[i].addEventListener('click', () => {
-            // Reset the user's score to zero and provide feedback.
+            // Reset the user's score to zero.
             resetScore();
             // Return the user to the home screen after resetting the score.
             switchSection('home-section');
@@ -39,14 +39,12 @@ function setupListeners() {
 function startQuiz() {
     // Retrieve the difficulty setting from local storage to fetch appropriate questions.
     const difficulty = localStorage.getItem('difficulty');
-
     // Clear any previous answer to prepare for new questions.
     localStorage.removeItem('selectedAnswer');
     // Request a new question based on the selected difficulty.
     fetchQuestion(difficulty);
 }
 
-// Fetch a quiz question from the API based on the difficulty.
 async function fetchQuestion(difficulty) {
     // Construct the API URL with the API key and difficulty parameter.
     const apiUrl = `https://quizapi.io/api/v1/questions?apiKey=61KQdm9Mah9W8Ryg3Q4oHeQpuVVdk44X9zpSCTna&category=cms&difficulty=${difficulty}&limit=1`;
@@ -59,17 +57,14 @@ async function fetchQuestion(difficulty) {
             showQuestion(data[0]);
         } else {
             // Handle cases where no questions are available.
-            console.error('No questions found');
-            alert('No questions available for this category and difficulty.');
+            console.log('No questions found');
         }
     } catch (error) {
         // Provide feedback on errors during the fetch operation.
-        console.error('Error fetching question:', error);
-        alert('Failed to fetch questions.');
+        console.log('Error fetching question:', error);
     }
 }
 
-// Render the fetched question and its possible answers.
 function showQuestion(question) {
     const questionText = document.getElementById('question');
     const answersBlock = document.getElementById('answer-form');
@@ -100,27 +95,27 @@ function showQuestion(question) {
     answersBlock.appendChild(submitButton);
 }
 
-// Handle the selection of an answer by the user.
 function selectAnswer(button) {
+    // Handle the selection of an answer by the user.
     const buttons = document.querySelectorAll('.answer-btn');
-    for (let i = 0; i < buttons.length; i++) {
+    buttons.forEach(btn => {
         // Reset styling for all answer buttons.
-        buttons[i].style.backgroundColor = '';
-        buttons[i].style.color = '';  // Reset text color to default
-    }
+        btn.style.backgroundColor = '';
+        btn.style.color = '';
+    });
     // Highlight the selected answer button.
-    button.style.backgroundColor = 'var(--accent-color)';  // Set background color
-    button.style.color = 'var(--dark-color)';  // Set text color for contrast
+    button.style.backgroundColor = 'var(--accent-color)';
+    button.style.color = 'var(--dark-color)';
     // Save the correctness of the selected answer for later evaluation.
     localStorage.setItem('selectedAnswer', button.dataset.correct);
 }
 
-// Process the submission of an answer and update the score accordingly.
 async function submitAnswer() {
+    // Process the submission of an answer and update the score accordingly.
     const selectedAnswer = localStorage.getItem('selectedAnswer');
     if (!selectedAnswer) {
         // Ensure an answer is selected before submission.
-        alert('Select an answer first!');
+        console.log('Select an answer first!');
         return;
     }
 
@@ -132,16 +127,16 @@ async function submitAnswer() {
     switchSection('results-section');
 }
 
-// Update the user's score in local storage and update the score display.
 async function updateScore(isCorrect) {
+    // Update the user's score in local storage and update the score display.
     const currentScore = parseInt(localStorage.getItem('score') || 0);
     // Increment the score if the answer is correct.
     localStorage.setItem('score', isCorrect ? currentScore + 1 : currentScore);
     displayResults();
 }
 
-// Display the results of the quiz attempt.
 function displayResults() {
+    // Display the results of the quiz attempt.
     const resultMessage = document.getElementById('result-message');
     const currentScore = document.getElementById('current-score');
     // Show the result of the last answer and the total score.
@@ -149,20 +144,20 @@ function displayResults() {
     currentScore.textContent = localStorage.getItem('score');
 }
 
-// Reset the score to zero and update the UI to reflect the reset.
 function resetScore() {
+    // Reset the score to zero and update the UI to reflect the reset.
     localStorage.setItem('score', '0');
     document.getElementById('current-score').textContent = '0';
-    alert('Score has been reset.');
+    console.log('Score has been reset.');
 }
 
-// Change the displayed section of the application based on the user's interaction.
 function switchSection(sectionId) {
+    // Change the displayed section of the application based on the user's interaction.
     const sections = document.querySelectorAll('.quiz-container');
-    for (let i = 0; i < sections.length; i++) {
+    sections.forEach(section => {
         // Hide all sections except the one that matches the given ID.
-        sections[i].style.display = sections[i].id === sectionId ? 'block' : 'none';
-    }
+        section.style.display = section.id === sectionId ? 'block' : 'none';
+    });
 
     // Update the results display if switching to the results section.
     if (sectionId === 'results-section') {
