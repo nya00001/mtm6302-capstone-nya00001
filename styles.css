@@ -1,0 +1,123 @@
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+html, body, div, span, applet, object, iframe,
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+a {
+    text-decoration: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+:root {
+    --primary-color: #87BCDE;
+    --secondary-color: #FFFFFF;
+    --dark-color: #243B4A;
+    --tertiary-color: #805E73;
+    --accent-color: #9EE493;
+    --primary-font: 'Lemon', sans-serif;
+}
+
+body {
+    font-family: var(--primary-font);
+    background-color: var(--primary-color);
+}
+
+.quiz-container h1,
+.quiz-container h2,
+.capital,
+.score,
+.reset {
+    border: 5px solid var(--dark-color);
+    color: var(--dark-color);
+}
+
+.quiz-container h1,
+.capital,
+.score {
+    background-color: var(--secondary-color);
+}
+
+.quiz-container h2 {
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+}
+
+.link,
+.capital,
+.reset {
+    border: 5px solid var(--dark-color);
+    background-color: var(--tertiary-color);
+    color: var(--secondary-color);
+}
+
+.link:hover,
+.capital:hover {
+    border: 5px solid var(--dark-color);
+    background-color: var(--accent-color);
+    color: var(--dark-color);
+}
+
+.mx-auto .dif {
+    background-color: var(--tertiary-color); /* Custom default background */
+    color: var(--secondary-color); /* Custom text color */
+    border: 5px solid var(--dark-color); /* Custom border color */
+    cursor: pointer;
+}
+
+.mx-auto .dif:hover,
+.mx-auto .dif:active {
+    background-color: var(--accent-color); /* Change to accent color on interaction */
+    color: var(--dark-color); /* Ensure text color is dark */
+}
+
+.mx-auto input[type="radio"]:checked + .dif {
+    background-color: var(--accent-color); /* Keep accent color for selected button */
+    color: var(--dark-color); /* Keep text color dark */
+}
+
+@media (min-width: 576px) {
+    .quiz-container {
+        border: 5px solid var(--dark-color); 
+    }
+}
